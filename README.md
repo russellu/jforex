@@ -1,0 +1,2 @@
+# jforex
+random functions
