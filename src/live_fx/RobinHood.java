@@ -131,7 +131,7 @@ public class RobinHood{
 		else if(currentDirection==1){
 			upls = raw.get(raw.size()-1)-entries ; 
 			if(upls > tp || upls < stop){
-				profits = profits + upls - (spread+commission) ; 
+				profits = profits + upls ;//- (spread+commission) ; 
 		//		System.out.println("Closing buy, profit = " + profits[0]) ; 
 				currentDirection = 0 ; 
 				//currs.put(c1, currs.get(c1)-1) ; currs.put(c2, currs.get(c2)+1) ; 
@@ -141,7 +141,7 @@ public class RobinHood{
 		else if(currentDirection==-1){
 			upls = entries-raw.get(raw.size()-1) ; 		
 			if(upls > tp || upls < stop){
-				profits = profits + upls - (spread+commission) ; 
+				profits = profits + upls ;//- (spread+commission) ; 
 			//	System.out.println("closing sell, profit = " + profits[0]) ; 
 				currentDirection = 0 ; 
 				//currs.put(c1, currs.get(c1)+1) ; currs.put(c2, currs.get(c2)-1) ; 

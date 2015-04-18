@@ -62,14 +62,14 @@ public class AllParams {
 	}
 	
 	public static void main(String[] args)throws Exception{
-		ArrayList<dukas> arr = parseDukas.parseOne("C:\\Users\\Acer\\Documents\\FX1MYR\\","EURUSD"+"_UTC_1 Min_Bid_2014.01.01_2015.03.20.csv") ;	
+		ArrayList<dukas> arr = parseDukas.parseOne("C:\\Users\\Acer\\Documents\\fx2\\","EURUSD"+"_UTC_1 Min_Bid_2008.01.01_2015.02.15.csv") ;	
 		//parameters (x6, mvg1,mvg2,mvg3,slope,tp,stop)
 		int[] m1Params = {5,25,8} ; ArrayList<Integer>m1Range = FileTest.getIntegerInRange(m1Params[0],m1Params[1],m1Params[2]) ; 
-		int[] m2Params = {35,95,15} ; ArrayList<Integer>m2Range = FileTest.getIntegerInRange(m2Params[0],m2Params[1],m2Params[2]) ;  
-		int[] m3Params = {100,250,60} ; ArrayList<Integer>m3Range = FileTest.getIntegerInRange(m3Params[0],m3Params[1],m3Params[2]) ; 
-		double[] slopeParams = {0.000005,0.00002,0.000005} ; ArrayList<Double>slopeRange = FileTest.getDoubleInRange(slopeParams[0], slopeParams[1], slopeParams[2]) ; 
- 		double[] tpParams = {0.0001,0.015,0.0015} ; ArrayList<Double>tpRange = FileTest.getDoubleInRange(tpParams[0], tpParams[1], tpParams[2]) ; 
-		double[] stopParams = {0.0001,0.025,0.005} ; ArrayList<Double>stopRange = FileTest.getDoubleInRange(stopParams[0], stopParams[1], stopParams[2]) ; 
+		int[] m2Params = {35,95,25} ; ArrayList<Integer>m2Range = FileTest.getIntegerInRange(m2Params[0],m2Params[1],m2Params[2]) ;  
+		int[] m3Params = {100,150,25} ; ArrayList<Integer>m3Range = FileTest.getIntegerInRange(m3Params[0],m3Params[1],m3Params[2]) ; 
+		double[] slopeParams = {0.000005,0.00002,0.000004} ; ArrayList<Double>slopeRange = FileTest.getDoubleInRange(slopeParams[0], slopeParams[1], slopeParams[2]) ; 
+ 		double[] tpParams = {0.0005,0.006,0.0007} ; ArrayList<Double>tpRange = FileTest.getDoubleInRange(tpParams[0], tpParams[1], tpParams[2]) ; 
+		double[] stopParams = {0.005,0.02,0.0025} ; ArrayList<Double>stopRange = FileTest.getDoubleInRange(stopParams[0], stopParams[1], stopParams[2]) ; 
 		
 		ArrayList<ArrayList<String>> dirNames = createDirStructure(stopRange,tpRange,slopeRange,"EURUSD") ; 
 				
@@ -97,19 +97,21 @@ public class AllParams {
 		
 								RobinHood rh = null ; 
 								ArrayList<Double> runIndices = new ArrayList<Double>() ;
-								for(int run=0;run<50;run++){
+								//ArrayList<String> yrIndices = new ArrayList<String>() ; 
+								//ArrayList<String> monthIndices = new ArrayList<String>() ; 
+								for(int run=0;run<150;run++){
 									System.out.println("p1="+tpRange.get(p1)+" p2="+stopRange.get(p2)+" p3="+slopeRange.get(p3)+" p4="+m1Range.get(p4)+" p5="+m2Range.get(p5)+" p6="+m3Range.get(p6)+" run="+run) ;					
-									rh = new RobinHood("EURUSD",tpRange.get(p1),-tpRange.get(p2),m1Range.get(p4),m2Range.get(p5),m3Range.get(p6),slopeRange.get(p3)) ;
+									rh = new RobinHood("EURUSD",tpRange.get(p1),-stopRange.get(p2),m1Range.get(p4),m2Range.get(p5),m3Range.get(p6),slopeRange.get(p3)) ;
 									//LinePlot lp = new LinePlot() ; int count = 0 ;  		
-									int iStart =(int)(Math.random()*100000) ; 
+									int iStart =(int)(Math.random()*(arr.size()*.75)) ; 
 									runIndices.add((double)iStart) ; 
-									for(int i=iStart;i<arr.size();i++){
+									for(int i=iStart;i<iStart+60*24*120;i++){
 										rh.update(arr.get(i).open) ;
 										//double[] newvals = {rh.raw.get(count),rh.mvgs.get(0).get(count),rh.mvgs.get(1).get(count),rh.mvgs.get(2).get(count)} ;count ++ ; lp.update(newvals, rh.profits) ;try{Thread.sleep(20);}catch(Exception e){}			
 									}		
 									meanProfits.get(p4).get(p5).get(p6).add(rh.profits/rh.ntrades) ; 
 									//meanProfits.get(p4).get(p5).get(p6).add((double)(p1+p2+p3+p4+p5+p6)) ; 
-									System.out.println("Adding value = " + (double)(p1+p2+p3+p4+p5+p6)) ; 
+									//System.out.println("Adding value = " + (double)(p1+p2+p3+p4+p5+p6)) ; 
 									nTrades.get(p4).get(p5).get(p6).add(rh.ntrades) ; 
 								}										
 								ArrayList<Double> paramList = params.get(p4).get(p5).get(p6) ; 

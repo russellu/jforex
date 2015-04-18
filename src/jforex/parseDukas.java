@@ -33,8 +33,8 @@ public class parseDukas {
 			   }
 			}
 			ArrayList<String> strs = parseDukas.getStrings(csvs.get(0)) ;
-			ArrayList<dukas> marketPoints = parseDukas.getDukas(strs) ;
-		//	ArrayList<dukas> marketPoints = parseDukas.getDukasCommas(strs) ;
+		//	ArrayList<dukas> marketPoints = parseDukas.getDukas(strs) ;
+			ArrayList<dukas> marketPoints = parseDukas.getDukasCommas(strs) ;
 
 			return marketPoints ;
 		}
